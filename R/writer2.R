@@ -1161,12 +1161,13 @@ wrUIpost <- function(footnote) {
   }
   
   glue::glue(
+    '  ),   # End of navbarPage \n\n',
     '    br(), \n',
     '    p({f0}), \n',
     '    p(em("This webpage was made using "), a("ShinyCell2", \n',
     '       href = "https://github.com/the-ouyang-lab/ShinyCell2",target="_blank")), \n',
     '    br(),br(),br(),br(),br()  \n',
-    '  )))  \n\n\n'
+    '  ))  \n\n\n'
   )
 }
 
