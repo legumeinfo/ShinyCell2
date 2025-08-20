@@ -1,3 +1,7 @@
+# &#127793; ShinyCell2 (LIS version)
+
+Welcome to the [Legume Information System](https://www.legumeinfo.org) fork of `ShinyCell2`. The legume seedling icon &#127793; indicates details specific to this version.
+
 # ShinyCell2
 `ShinyCell2` is an enhanced R package for creating interactive, lightweight, 
 and shareable web applications to explore single-cell multi-omics and spatial 
@@ -148,6 +152,12 @@ make install
 devtools::install_github("the-ouyang-lab/ShinyCell2")
 ```
 
+&#127793; To install this LIS version instead, use
+``` r
+remove.packages("ShinyCell2") # if necessary
+devtools::install_github("legumeinfo/ShinyCell2", ref = "lis")
+```
+
 
 
 # Quick Start Guide
@@ -183,6 +193,17 @@ e.g. [shinyapps.io](https://www.shinyapps.io/) and Amazon Web Services (AWS)
 or be hosted via Shiny Server. For further details, refer to 
 [Instructions on how to deploy ShinyCell apps online](
 https://htmlpreview.github.io/?https://github.com/the-ouyang-lab/ShinyCell2-tutorial/master/docs/cloud.html).
+
+&#127793; To generate our application [_Medicago truncatula_ Meliloti vs. Mock Inoculated Root](https://shinycell.legumeinfo.org/medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022/), we use
+``` r
+seurat_medtr <- readRDS("shinycell.rds")
+scConf_medtr <- createConfig(seurat_medtr)
+title_medtr <- "Medicago truncatula Meliloti vs. Mock Inoculated Root"
+dir_medtr <- "medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022/"
+makeShinyFiles(seurat_medtr, scConf_medtr, shiny.prefix = "sc1", shiny.dir = dir_medtr)
+makeShinyCodes(shiny.title = title_medtr, shiny.prefix = "sc1", shiny.dir = dir_medtr)
+```
+which puts the application files in `medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022/` instead of the default `shinyApp/`.
 
 More details on the various visualisations in the `ShinyCell2` can be found in
 [Additional information on new visualisations tailored for spatial / scATAC-seq / multiomics](
