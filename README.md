@@ -119,7 +119,7 @@ if(length(newPkg)){install.packages(newPkg)}
 
 &#127793; Additional packages required by this LIS version:
 ``` r
-lisReqPkg = c("RCurl", "jsonlite")
+lisReqPkg = c("RCurl", "jsonlite", "shinyjs")
 lisNewPkg = lisReqPkg[!(lisReqPkg %in% installed.packages()[,"Package"])]
 if(length(lisNewPkg)){install.packages(lisNewPkg)}
 ```
@@ -231,6 +231,40 @@ sections. If any are not specified, `ShinyCell2` uses their default settings.
 
 For an example, see the **_Medicago truncatula_ Meliloti vs. Mock Inoculated Root**
 generation process above. It defines `gene_prefix` and `gene_lookup_filename`.
+
+### &#127793; Specifying values in the URL
+
+This LIS version allows setting initial values through a **GET** request:
+* `tab`: tag for selected tab
+* `dataset`: tag for selected dataset (ignored unless multiple datasets exist)
+
+For example, this URL will launch the application in the **Gene coexpression** tab.<br>
+http://dev.lis.ncgr.org:50083/?tab=gene-coexpression
+
+To configure the tab and dataset lookup, you may add the following (optional) lists
+to your `properties.rds`. (Make sure that they match your actual tabs and datasets!)
+
+`tab_index`: List for converting URL `tab` field to the matching tab's index.
+If missing, `ShinyCell2` assumes that your application has the original tab structure,
+```
+tab_index = list(
+  "zoom-dimred" = 1,
+  "side-dimred" = 2,
+  "gene-coexpression" = 3,
+  "violin-box" = 4,
+  "proportion-numbers" = 5,
+  "bubble-heatmap" = 6
+)
+```
+
+`dataset_index`: List for converting URL `dataset` field to the matching dataset's
+index, required only when your application has multiple datasets. An example would be
+```
+dataset_index = list(
+  "nodules" = 1,
+  "root" = 2
+)
+```
 
 ### &#127793; Gene linkouts
 

@@ -19,6 +19,7 @@ wrSVlib <- function() {
     'library(gridExtra) \n',
     'library(RCurl) \n',
     'library(jsonlite) \n',
+    'library(shinyjs) \n',
     '\n'
   )
 }
@@ -113,6 +114,47 @@ wrSVpre <- function() {
     '\n',
     '\n'
   )
+}
+
+#' Write code for parsing URL fields
+#'
+#' @rdname wrSVurl
+#' @export wrSVurl
+#'
+wrSVurl <- function() {
+  glue::glue(' \n',
+    '  url_fields <- isolate(parseQueryString(session$clientData$url_search)) \n',
+    '  # Extract requested dataset and tab from URL \n',
+    '  if (is.null(props$dataset_index) || is.null(url_fields$dataset)) {{ \n',
+    '    i_dataset <- 1 \n',
+    '  }} else {{ \n',
+    '    i_dataset <- props$dataset_index[[url_fields$dataset]] \n',
+    '  }} \n',
+    '  if (is.null(url_fields$tab)) {{ \n',
+    '    i_tab <- 1 \n',
+    '  }} else {{ \n',
+    '    i_tab <- props$tab_index[[url_fields$tab]] \n',
+    '  }} \n',
+    '  if (!(is.null(i_dataset) || is.null(i_tab))) {{ \n',
+    '    # The tabs we are interested in have href in the form \'#tab-nnnn-t\', \n',
+    '    # where nnnn is each dataset\'s unique 4-digit tabset id, and t is the tab id (i_tab), \n',
+    '    runjs(paste( \n',
+    '      "const navbar = document.getElementById(\'navbar\');", \n',
+    '      "const tabAnchors = Array.from(navbar.getElementsByTagName(\'a\'));", \n',
+    '      "const namedTabs = tabAnchors.filter((a) => a.hasAttribute(\'href\') && a.hasAttribute(\'data-value\'));", \n',
+    '      "const tabIds = namedTabs.map((tab) => tab.getAttribute(\'href\'));", \n',
+    '      "const rgx = /\\\\d{{4}}/;", \n',
+    '      "const tabsetIds = tabIds.filter((tab) => rgx.test(tab)).map((tab) => rgx.exec(tab)).flat();", \n',
+    '      "const uniqueTabsetIds = Array.from(new Set(tabsetIds));", \n',
+    '      paste0("const tabId = \'#tab-\' + uniqueTabsetIds[", (i_dataset - 1), "] + \'-", i_tab, "\';"), \n',
+    '      "document.querySelector(\'a[href=\\"\' + tabId + \'\\"]\').click();" \n',
+    '    )) \n',
+    '  }} else {{ \n',
+    '    alert("Invalid tab or dataset tag in URL"); \n',
+    '    updateQueryString("/") \n',
+    '  }} \n',
+    '\n',
+  .trim = FALSE)
 }
 
 #' Write code for server.R

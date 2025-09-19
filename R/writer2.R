@@ -7,6 +7,7 @@ wrUIlib <- function() {
   glue::glue(
     'library(shiny) \n',
     'library(shinyhelper) \n',
+    'library(shinyjs) \n',
     'library(data.table) \n',
     'library(Matrix) \n',
     'library(DT) \n',
@@ -63,10 +64,14 @@ wrUIpre <- function(title, ganalytics) {
     '  tags$head(tags$style(HTML(".shiny-output-error-validation {{color: red; font-weight: bold;}}"))), \n',
     '  list(tags$style(HTML(".navbar-default .navbar-nav {{ font-weight: bold; font-size: 16px; }}"))), \n',
     '  \n',
+    '  # Initialize shinyjs \n',
+    '  useShinyjs(), \n',
+    '  \n',
     '  ### Page title \n',
     '  titlePanel("{title}"), \n',
     '  navbarPage( \n',
     '    NULL, \n',
+    '    id = "navbar", \n',
     '\n'
   )
 }

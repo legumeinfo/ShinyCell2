@@ -92,6 +92,7 @@ makeShinyCodes <- function(shiny.title, shiny.footnotes = "",
       readr::write_file(wrSVloadT1(i), file = fname, append = TRUE)}
   }
   readr::write_file(wrSVpre(), file = fname, append = TRUE)
+  readr::write_file(wrSVurl(), file = fname, append = TRUE)
   for(i in shiny.prefix){
     if(file.exists(paste0(shiny.dir, "/", i, "image.rds"))){
       readr::write_file(wrSVmainS1(i), file = fname, append = TRUE)
