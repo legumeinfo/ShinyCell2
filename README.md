@@ -117,6 +117,13 @@ if(length(newPkg)){install.packages(newPkg)}
 # reticulate::py_install("anndata")
 ```
 
+&#127793; Additional packages required by this LIS version:
+``` r
+lisReqPkg = c("RCurl", "jsonlite")
+lisNewPkg = lisReqPkg[!(lisReqPkg %in% installed.packages()[,"Package"])]
+if(length(lisNewPkg)){install.packages(lisNewPkg)}
+```
+
 Furthermore, on the system where the Shiny app will be deployed, users can run 
 the following code to check if the packages required by the Shiny app exist 
 and install them if required:
@@ -200,6 +207,11 @@ seurat_medtr <- readRDS("shinycell.rds")
 scConf_medtr <- createConfig(seurat_medtr)
 title_medtr <- "Medicago truncatula Meliloti vs. Mock Inoculated Root"
 dir_medtr <- "medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022/"
+props_medtr <- list(
+  gene_prefix = "medtr.A17.gnm5.ann1_6.",
+  gene_lookup_filename = "medicago_gene_id_lookup.txt"
+)
+saveRDS(props_medtr, paste0(dir_medtr, "properties.rds"))
 makeShinyFiles(seurat_medtr, scConf_medtr, shiny.prefix = "sc1", shiny.dir = dir_medtr)
 makeShinyCodes(shiny.title = title_medtr, shiny.prefix = "sc1", shiny.dir = dir_medtr)
 ```
@@ -211,7 +223,34 @@ https://htmlpreview.github.io/?https://github.com/the-ouyang-lab/ShinyCell2-tuto
 and [Additional information on enhanced visualisation features](
 https://htmlpreview.github.io/?https://github.com/the-ouyang-lab/ShinyCell2-tutorial/master/docs/addEnhanVis.html)
 
+## &#127793; LIS-specific properties
 
+As part of your build process, create an R data file called `properties.rds` in your
+application folder, containing a list of (optional) fields described in the next two
+sections. If any are not specified, `ShinyCell2` uses their default settings.
+
+For an example, see the **_Medicago truncatula_ Meliloti vs. Mock Inoculated Root**
+generation process above. It defines `gene_prefix` and `gene_lookup_filename`.
+
+### &#127793; Gene linkouts
+
+Tabs allowing gene selection now display a set of linkouts for each selected gene.
+We obtain these from the LIS `gene_linkouts` microservice, which takes as argument
+the full-yuck gene name. Since the gene names in your Seurat object are generally
+short forms or represented by another symbol, you must tell `ShinyCell2` how to
+convert them to full-yuck. As part of your build process, create an R data file
+called `properties.rds`, containing a list with the following (optional) fields:
+
+`gene_lookup_filename`: Name of a text file containing a lookup table of gene symbol
+to gene name. This file must contain two tab-separated columns; column 1 is the gene name
+and column 2 is the gene symbol(s). If multiple symbols point to the same gene,
+you may list them on the same row in column 2, separated by commas. If missing,
+`ShinyCell2` will assume that all of your gene names really are names and not symbols,
+and skip the lookup.
+
+`gene_prefix`: Prefix that restores the gene names to full-yuck. If missing,
+`ShinyCell2` will assume that the gene names are already full-yuck, and skip the
+prefixing step.
 
 # Frequently Asked Questions
 - Q: How much memory / storage space does `ShinyCell2` and the app consume?

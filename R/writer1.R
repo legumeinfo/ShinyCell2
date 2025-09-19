@@ -17,6 +17,8 @@ wrSVlib <- function() {
     'library(ggdendro) \n',
     'library(grid) \n',
     'library(gridExtra) \n',
+    'library(RCurl) \n',
+    'library(jsonlite) \n',
     '\n'
   )
 }
@@ -93,6 +95,10 @@ wrSVpre <- function() {
     'sList = c(18,24,30)\n',
     'names(sList) = c("Small", "Medium", "Large") \n',
     '\n',
+    '\n',
+    '# Read LIS properties \n',
+    'props <- loadProperties() \n',
+    'gene_lookup_table <- readGeneLookupTable(props) \n',
     '\n',
     '\n',
     '### Start server code \n',
@@ -218,6 +224,7 @@ wrSVmainA1 <- function(prefix) {
     '              options = list(pageLength = -1, dom = "tB", buttons = c("copy", "csv", "excel"))) %>%\n',
     '      formatRound(columns = c("pctZoom"), digits = 2)\n',
     '  }})\n',
+    '  output${prefix}a1lnk1 <- renderUI(HTML(toLinkouts(input${prefix}a1inp1, props, gene_lookup_table))) \n',
     '\n',
     '\n',
     '\n'
@@ -356,6 +363,8 @@ wrSVmainA2 <- function(prefix) {
     '              options = list(pageLength = -1, dom = "tB", buttons = c("copy", "csv", "excel"))) %>% \n',
     '      formatRound(columns = c("pctExpress", "avgExpress"), digits = c(2, 3)) \n',
     '  }})\n',
+    '  output${prefix}a2lnk1 <- renderUI(HTML(toLinkouts(input${prefix}a2inp1, props, gene_lookup_table))) \n',
+    '  output${prefix}a2lnk2 <- renderUI(HTML(toLinkouts(input${prefix}a2inp2, props, gene_lookup_table))) \n',
     '\n',
     '\n',
     '\n'
@@ -431,6 +440,8 @@ wrSVmainA3 <- function(prefix) {
     '              options = list(pageLength = -1, dom = "tB", buttons = c("copy", "csv", "excel"))) %>% \n',
     '      formatRound(columns = c("percent"), digits = 2) \n',
     '  }}) \n',
+    '  output${prefix}a3lnk1 <- renderUI(HTML(toLinkouts(input${prefix}a3inp1, props, gene_lookup_table))) \n',
+    '  output${prefix}a3lnk2 <- renderUI(HTML(toLinkouts(input${prefix}a3inp2, props, gene_lookup_table))) \n',
     '\n',
     '\n',
     '\n'
@@ -493,6 +504,7 @@ wrSVmainB1 <- function(prefix) {
     '    filename = function() {{ paste0("{prefix}",input${prefix}b1typ,"_",input${prefix}b1inp1,"_",input${prefix}b1inp2,".",input${prefix}b1oup.f) }}, \n',
     '    content = function(file) {{ ggsave(file, height = input${prefix}b1oup.h, width = input${prefix}b1oup.w, plot = {prefix}b1oup())\n',
     '  }}) \n',
+    '  output${prefix}b1lnk1 <- renderUI(HTML(toLinkouts(input${prefix}b1inp2, props, gene_lookup_table))) \n',
     '\n',
     '\n',
     '\n'
