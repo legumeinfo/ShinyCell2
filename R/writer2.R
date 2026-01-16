@@ -81,11 +81,16 @@ wrUIpre <- function(title, ganalytics) {
 #' @rdname wrUImainA1
 #' @export wrUImainA1
 #'
-wrUImainA1 <- function(prefix, ptsiz) {
+wrUImainA1 <- function(prefix, ptsiz, dataset = NULL) {
+  navbar_tab <- "tab=zoom-dimred"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.a1: Zoom-enable Dimred \n',
     '  tabPanel( \n',
     '    HTML("Zoom-enable Dimred"), \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Zoom-enable reduced dimensions overlaid with cell info or assay expression"), \n',
     '    "In this tab, users can visualise either cell information and gene expression ",  \n',
     '    "in a zoom-enabled low-dimensional representions plots.", \n',
@@ -210,11 +215,16 @@ wrUImainA1 <- function(prefix, ptsiz) {
 #' @rdname wrUImainA2
 #' @export wrUImainA2
 #'
-wrUImainA2 <- function(prefix, ptsiz) {
+wrUImainA2 <- function(prefix, ptsiz, dataset = NULL) {
+  navbar_tab <- "tab=side-dimred"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.a2: CellInfo vs AssayExpr on dimRed \n',
     '  tabPanel( \n',
     '    HTML("Side-by-side DimRed"), \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Cell information vs assay expression on reduced dimensions"), \n',
     '    "In this tab, users can visualise both cell information and gene ",  \n',
     '    "expression side-by-side on low-dimensional representions.", \n',
@@ -409,11 +419,16 @@ wrUImainA2 <- function(prefix, ptsiz) {
 #' @rdname wrUImainA3
 #' @export wrUImainA3
 #'
-wrUImainA3 <- function(prefix, ptsiz) {
+wrUImainA3 <- function(prefix, ptsiz, dataset = NULL) {
+  navbar_tab <- "tab=gene-coexpression"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.a3: Gene coexpression plot \n',
     '  tabPanel( \n',
     '    HTML("Gene coexpression"), \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Coexpression of two genes on reduced dimensions"), \n',
     '    "In this tab, users can visualise the coexpression of two genes ", \n',
     '    "on low-dimensional representions.", \n',
@@ -539,11 +554,16 @@ wrUImainA3 <- function(prefix, ptsiz) {
 #' @rdname wrUImainB1
 #' @export wrUImainB1
 #'
-wrUImainB1 <- function(prefix, ptsiz) {
+wrUImainB1 <- function(prefix, ptsiz, dataset = NULL) {
+  navbar_tab <- "tab=violin-box"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.b1: violinplot / boxplot \n',
     '  tabPanel( \n',
     '    HTML("Violinplot / Boxplot"),  \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Cell information / assay expression violin plot / box plot"), \n',
     '    "In this tab, users can visualise the assay expression or continuous cell information ",  \n',
     '    "(e.g. Number of UMIs / module score) across groups of cells (e.g. libary / clusters).", \n',
@@ -636,11 +656,16 @@ wrUImainB1 <- function(prefix, ptsiz) {
 #' @rdname wrUImainB2
 #' @export wrUImainB2
 #'
-wrUImainB2 <- function(prefix) {
+wrUImainB2 <- function(prefix, dataset = NULL) {
+  navbar_tab <- "tab=proportion-numbers"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.b2: Proportion plot \n',
     '  tabPanel( \n',
     '    HTML("Proportion plot"), \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Proportion / cell numbers across different cell information"), \n',
     '    "In this tab, users can visualise the composition of single cells based on one discrete ", \n',
     '    "cell information across another discrete cell information. ",  \n',
@@ -713,11 +738,16 @@ wrUImainB2 <- function(prefix) {
 #' @rdname wrUImainB3
 #' @export wrUImainB3
 #'
-wrUImainB3 <- function(prefix) {
+wrUImainB3 <- function(prefix, dataset = NULL) {
+  navbar_tab <- "tab=bubble-heatmap"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.b3: Bubbleplot / Heatmap \n',
     '  tabPanel( \n',
     '    HTML("Bubbleplot / Heatmap"), \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Gene expression bubbleplot / heatmap"), \n',
     '    "In this tab, users can visualise the gene expression patterns of ", \n',
     '    "multiple genes grouped by categorical cell information (e.g. library / cluster).", br(), \n',
@@ -803,11 +833,16 @@ wrUImainB3 <- function(prefix) {
 #' @rdname wrUImainS1
 #' @export wrUImainS1
 #'
-wrUImainS1 <- function(prefix, ptsiz) {
+wrUImainS1 <- function(prefix, ptsiz, dataset = NULL) {
+  navbar_tab <- "tab=zoom-spatial"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.s1: Zoom-enable spatial \n',
     '  tabPanel( \n',
     '    HTML("Zoom-enable Spatial"), \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Zoom-enable spatial plot overlaid with cell info or assay expression"), \n',
     '    "In this tab, users can visualise either cell information and gene expression ",  \n',
     '    "in a zoom-enabled spatial plot.", \n',
@@ -919,11 +954,16 @@ wrUImainS1 <- function(prefix, ptsiz) {
 #' @rdname wrUImainS2
 #' @export wrUImainS2
 #'
-wrUImainS2 <- function(prefix, ptsiz) {
+wrUImainS2 <- function(prefix, ptsiz, dataset = NULL) {
+  navbar_tab <- "tab=side-spatial"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.s2: CellInfo vs AssayExpr on spatial \n',
     '  tabPanel( \n',
     '    HTML("Side-by-side Spatial"), \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Cell information vs assay expression on spatial coordinates"), \n',
     '    "In this tab, users can visualise both cell information and gene ",  \n',
     '    "expression side-by-side on spatial plot.", \n',
@@ -1078,11 +1118,16 @@ wrUImainS2 <- function(prefix, ptsiz) {
 #' @rdname wrUImainT1
 #' @export wrUImainT1
 #'
-wrUImainT1 <- function(prefix) {
+wrUImainT1 <- function(prefix, dataset = NULL) {
+  navbar_tab <- "tab=trackplot"
+  if (!is.null(dataset)) {
+    navbar_tab <- paste0("dataset=", dataset, "&", navbar_tab)
+  }
   glue::glue(
     '  ### Tab1.t1: Trackplot \n',
     '  tabPanel( \n',
     '    HTML("Track plot"), \n',
+    '    value = "{navbar_tab}", \n',
     '    h4("Track plot"), \n',
     '    "In this tab, users can visualise open chromatin regions.", \n',
     '    br(),br(), \n',

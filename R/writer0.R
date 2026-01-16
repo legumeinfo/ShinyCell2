@@ -964,7 +964,7 @@ wrShFunc <- function() {
     '  props <- readRDS("properties.rds") \n',
     '  # Add default tab index if not specified \n',
     '  if (is.null(props$tab_index)) {{ \n',
-    '    props$tab_index = list( \n',
+    '    props$tab_index <- list( \n',
     '      "zoom-dimred" = 1, \n',
     '      "side-dimred" = 2, \n',
     '      "gene-coexpression" = 3, \n',

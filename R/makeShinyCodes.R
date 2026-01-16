@@ -17,6 +17,9 @@
 #'   must match that of \code{shiny.prefix}. Note that this is ignored if 
 #'   there is only one dataset
 #' @param shiny.dir specify directory to create the shiny app in
+#' @param shiny.datasets specify the id (that goes in the URL) for each dataset.
+#'   Must either be NULL, or length must match that of \code{shiny.prefix}.
+#'   Note that this is ignored if there is only one dataset.
 #' @param defPtSiz specify default point size for single cells. For example, a 
 #'   smaller size can be used if you have many cells in your dataset. A single 
 #'   value can be specified to set the point size for all datasets. Otherwise,
@@ -48,11 +51,15 @@
 #' @export
 makeShinyCodes <- function(shiny.title, shiny.footnotes = "",
                            shiny.prefix, shiny.headers, shiny.dir, 
+                           shiny.datasets = NULL,
                            defPtSiz = 1.25, ganalytics = NA){
   ### Checks
   if(length(shiny.prefix) > 1){
     if(length(shiny.prefix) != length(shiny.headers)){
       stop("length of shiny.prefix and shiny.headers does not match!")
+    }
+    if(length(shiny.prefix) != length(shiny.datasets)){
+      stop("length of shiny.prefix and shiny.datasets does not match!")
     }
   }
   if(length(shiny.prefix) != length(defPtSiz)){
@@ -135,16 +142,16 @@ makeShinyCodes <- function(shiny.title, shiny.footnotes = "",
       hhh = shiny.headers[i]
       readr::write_file(glue::glue('navbarMenu("{hhh}",'), file = fname, append = TRUE)
       if(file.exists(paste0(shiny.dir, "/", shiny.prefix[i], "image.rds"))){
-        readr::write_file(wrUImainS1(shiny.prefix[i], defPtSiz2[i]), file = fname, append = TRUE)
-        readr::write_file(wrUImainS2(shiny.prefix[i], defPtSiz2[i]), file = fname, append = TRUE)}
+        readr::write_file(wrUImainS1(shiny.prefix[i], defPtSiz2[i], shiny.datasets[i]), file = fname, append = TRUE)
+        readr::write_file(wrUImainS2(shiny.prefix[i], defPtSiz2[i], shiny.datasets[i]), file = fname, append = TRUE)}
       if(file.exists(paste0(shiny.dir, "/", shiny.prefix[i], "bw.rds"))){ 
-        readr::write_file(wrUImainT1(shiny.prefix[i]), file = fname, append = TRUE)}
-      readr::write_file(wrUImainA1(shiny.prefix[i], defPtSiz[i]), file = fname, append = TRUE)
-      readr::write_file(wrUImainA2(shiny.prefix[i], defPtSiz[i]), file = fname, append = TRUE)
-      readr::write_file(wrUImainA3(shiny.prefix[i], defPtSiz[i]), file = fname, append = TRUE)
-      readr::write_file(wrUImainB1(shiny.prefix[i], defPtSiz[i]), file = fname, append = TRUE)
-      readr::write_file(wrUImainB2(shiny.prefix[i]), file = fname, append = TRUE)
-      readr::write_file(wrUImainB3(shiny.prefix[i]), file = fname, append = TRUE)
+        readr::write_file(wrUImainT1(shiny.prefix[i], shiny.datasets[i]), file = fname, append = TRUE)}
+      readr::write_file(wrUImainA1(shiny.prefix[i], defPtSiz[i], shiny.datasets[i]), file = fname, append = TRUE)
+      readr::write_file(wrUImainA2(shiny.prefix[i], defPtSiz[i], shiny.datasets[i]), file = fname, append = TRUE)
+      readr::write_file(wrUImainA3(shiny.prefix[i], defPtSiz[i], shiny.datasets[i]), file = fname, append = TRUE)
+      readr::write_file(wrUImainB1(shiny.prefix[i], defPtSiz[i], shiny.datasets[i]), file = fname, append = TRUE)
+      readr::write_file(wrUImainB2(shiny.prefix[i], shiny.datasets[i]), file = fname, append = TRUE)
+      readr::write_file(wrUImainB3(shiny.prefix[i], shiny.datasets[i]), file = fname, append = TRUE)
       readr::write_file(glue::glue('), \n\n\n'), append = TRUE, file = fname)
     }
   }

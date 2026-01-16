@@ -122,7 +122,7 @@ wrSVpre <- function() {
 #' @export wrSVurl
 #'
 wrSVurl <- function() {
-  glue::glue(' \n',
+  glue::glue(
     '  url_fields <- isolate(parseQueryString(session$clientData$url_search)) \n',
     '  # Extract requested dataset and tab from URL \n',
     '  if (is.null(props$dataset_index) || is.null(url_fields$dataset)) {{ \n',
@@ -153,7 +153,19 @@ wrSVurl <- function() {
     '    alert("Invalid tab or dataset tag in URL"); \n',
     '    updateQueryString("/") \n',
     '  }} \n',
-    '\n',
+    ' \n',
+    '  # Update application state to URL on the fly \n',
+    '  observeEvent( \n',
+    '    eventExpr = {{ \n',
+    '      # any input that can trigger the handlerExpr \n',
+    '      input$navbar \n',
+    '    }}, \n',
+    '    handlerExpr = {{ \n',
+    '      updateQueryString(paste0("?", input$navbar)) \n',
+    '    }}, \n',
+    '    ignoreInit = TRUE \n',
+    '  ) \n',
+    ' \n',
   .trim = FALSE)
 }
 
