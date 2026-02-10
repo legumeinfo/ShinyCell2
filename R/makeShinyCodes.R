@@ -99,7 +99,21 @@ makeShinyCodes <- function(shiny.title, shiny.footnotes = "",
       readr::write_file(wrSVloadT1(i), file = fname, append = TRUE)}
   }
   readr::write_file(wrSVpre(), file = fname, append = TRUE)
-  readr::write_file(wrSVurl(), file = fname, append = TRUE)
+  # Write the from/to URL code, in 7 parts (even numbered parts loop over datasets)
+  dd <- seq_along(shiny.prefix) # dataset indexes
+  readr::write_file(wrSVurl_1(), file = fname, append = TRUE)
+  for (d in dd) {
+    readr::write_file(wrSVurl_2(d, shiny.prefix[d]), file = fname, append = TRUE)
+  }
+  readr::write_file(wrSVurl_3(), file = fname, append = TRUE)
+  for (d in dd) {
+    readr::write_file(wrSVurl_4(d, shiny.prefix[d]), file = fname, append = TRUE)
+  }
+  readr::write_file(wrSVurl_5(), file = fname, append = TRUE)
+  for (d in dd) {
+    readr::write_file(wrSVurl_6(d, shiny.prefix[d]), file = fname, append = TRUE)
+  }
+  readr::write_file(wrSVurl_7(), file = fname, append = TRUE)
   for(i in shiny.prefix){
     if(file.exists(paste0(shiny.dir, "/", i, "image.rds"))){
       readr::write_file(wrSVmainS1(i), file = fname, append = TRUE)

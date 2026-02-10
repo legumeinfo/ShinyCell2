@@ -117,11 +117,12 @@ wrSVpre <- function() {
 }
 
 #' Write code for parsing URL fields
+#' (in 7 parts, where even numbered parts repeat for each dataset)
 #'
-#' @rdname wrSVurl
-#' @export wrSVurl
+#' @rdname wrSVurl_1
+#' @export wrSVurl_1
 #'
-wrSVurl <- function() {
+wrSVurl_1 <- function() {
   glue::glue(
     '  url_fields <- isolate(parseQueryString(session$clientData$url_search)) \n',
     '  # Extract requested dataset and tab from URL \n',
@@ -154,14 +155,139 @@ wrSVurl <- function() {
     '    updateQueryString("/") \n',
     '  }} \n',
     ' \n',
+    '  # Extract requested genes from URL \n',
+  .trim = FALSE)
+}
+#'
+#' @rdname wrSVurl_2
+#' @export wrSVurl_2
+#'
+wrSVurl_2 <- function(i, prefix) {
+  glue::glue(
+    '  if (i_dataset == {i}) {{ \n',
+    '    if (!is.null(url_fields$gene1)) {{ \n',
+    '      for (assay in {prefix}def$assay) {{ \n',
+    '        {prefix}def$gene1[[assay]] <- url_fields$gene1 \n',
+    '      }} \n',
+    '      if (url_fields$tab == "zoom-dimred") {{ \n',
+    '        if (isolate(input${prefix}a1ass1) == "Cell Information") {{ \n',
+    '          updateSelectInput(session, "{prefix}a1ass1", selected = "Assay: integrated") \n',
+    '        }} else {{ \n',
+    '          updateSelectInput(session, "{prefix}a1inp1", selected = url_fields$gene1) \n',
+    '        }} \n',
+    '      }} else if (url_fields$tab == "side-dimred") {{ \n',
+    '        if (isolate(input${prefix}a2ass1) == "Cell Information") {{ \n',
+    '          updateSelectInput(session, "{prefix}a2ass1", selected = "Assay: integrated") \n',
+    '        }} else {{ \n',
+    '          updateSelectInput(session, "{prefix}a2inp1", selected = url_fields$gene1) \n',
+    '        }} \n',
+    '      }} else if (url_fields$tab == "gene-coexpression") {{ \n',
+    '        updateSelectInput(session, "{prefix}a3inp1", selected = url_fields$gene1) \n',
+    '      }} else if (url_fields$tab == "violin-box") {{ \n',
+    '        if (isolate(input${prefix}b1ass1) == "Cell Information") {{ \n',
+    '          updateSelectInput(session, "{prefix}b1ass1", selected = "Assay: integrated") \n',
+    '        }} else {{ \n',
+    '          updateSelectInput(session, "{prefix}b1inp2", selected = url_fields$gene1) \n',
+    '        }} \n',
+    '      }} \n',
+    '    }} \n',
+    '    if (!is.null(url_fields$gene2)) {{ \n',
+    '      for (assay in {prefix}def$assay) {{ \n',
+    '        {prefix}def$gene2[[assay]] <- url_fields$gene2 \n',
+    '      }} \n',
+    '      if (url_fields$tab == "side-dimred") {{ \n',
+    '        if (isolate(input${prefix}a2ass2) == "Cell Information") {{ \n',
+    '          updateSelectInput(session, "{prefix}a2ass2", selected = "Assay: integrated") \n',
+    '        }} else {{ \n',
+    '          updateSelectInput(session, "{prefix}a2inp2", selected = url_fields$gene2) \n',
+    '        }} \n',
+    '      }} else if (url_fields$tab == "gene-coexpression") {{ \n',
+    '        updateSelectInput(session, "{prefix}a3inp2", selected = url_fields$gene2) \n',
+    '      }} \n',
+    '    }} \n',
+    '  }} \n',
+  .trim = FALSE)
+}
+#'
+#' @rdname wrSVurl_3
+#' @export wrSVurl_3
+#'
+wrSVurl_3 <- function() {
+  glue::glue(
+    ' \n',
     '  # Update application state to URL on the fly \n',
     '  observeEvent( \n',
     '    eventExpr = {{ \n',
-    '      # any input that can trigger the handlerExpr \n',
+    '      # any tab \n',
     '      input$navbar \n',
+  .trim = FALSE)
+}
+#'
+#' @rdname wrSVurl_4
+#' @export wrSVurl_4
+#'
+wrSVurl_4 <- function(i, prefix) {
+  glue::glue(
+    '      # dataset {i}: \n',
+    '      # zoom-enabled dimred \n',
+    '      input${prefix}a1inp1 \n',
+    '      # side-by-side dimred \n',
+    '      input${prefix}a2inp1 \n',
+    '      input${prefix}a2inp2 \n',
+    '      # gene coexpression \n',
+    '      input${prefix}a3inp1 \n',
+    '      input${prefix}a3inp2 \n',
+    '      # violin-boxplot \n',
+    '      input${prefix}b1inp2 \n',
+  .trim = FALSE)
+}
+#'
+#' @rdname wrSVurl_5
+#' @export wrSVurl_5
+#'
+wrSVurl_5 <- function() {
+  glue::glue(
     '    }}, \n',
     '    handlerExpr = {{ \n',
-    '      updateQueryString(paste0("?", input$navbar)) \n',
+    '      url_q <- paste0("?", input$navbar) \n',
+  .trim = FALSE)
+}
+#'
+#' @rdname wrSVurl_6
+#' @export wrSVurl_6
+#'
+wrSVurl_6 <- function(i, prefix) {
+  glue::glue(
+    '      if (i_dataset == {i}) {{ \n',
+    '        if (grepl("tab=zoom-dimred", input$navbar)) {{ \n',
+    '          if (input${prefix}a1ass1 != "Cell Information") {{ \n',
+    '            url_q <- paste0(url_q, "&gene1=", input${prefix}a1inp1) \n',
+    '          }} \n',
+    '        }} else if (grepl("tab=side-dimred", input$navbar)) {{ \n',
+    '          if (input${prefix}a2ass1 != "Cell Information") {{ \n',
+    '            url_q <- paste0(url_q, "&gene1=", input${prefix}a2inp1) \n',
+    '          }} \n',
+    '          if (input${prefix}a2ass2 != "Cell Information") {{ \n',
+    '            url_q <- paste0(url_q, "&gene2=", input${prefix}a2inp2) \n',
+    '          }} \n',
+    '        }} else if (grepl("tab=gene-coexpression", input$navbar)) {{ \n',
+    '          url_q <- paste0(url_q, "&gene1=", input${prefix}a3inp1) \n',
+    '          url_q <- paste0(url_q, "&gene2=", input${prefix}a3inp2) \n',
+    '        }} else if (grepl("tab=violin-box", input$navbar)) {{ \n',
+    '          if (input${prefix}b1ass1 != "Cell Information") {{ \n',
+    '            url_q <- paste0(url_q, "&gene1=", input${prefix}b1inp2) \n',
+    '          }} \n',
+    '        }} \n',
+    '      }} \n',
+  .trim = FALSE)
+}
+#'
+#' @rdname wrSVurl_7
+#' @export wrSVurl_7
+#'
+wrSVurl_7 <- function() {
+  glue::glue(
+    '      updateQueryString(url_q) \n',
     '    }}, \n',
     '    ignoreInit = TRUE \n',
     '  ) \n',
@@ -320,7 +446,7 @@ wrSVmainA2 <- function(prefix) {
     '      resLen <- length(res) \n',
     '    }} else {{ \n',
     '      res <- names({prefix}gene[[gsub("^Assay: ", "", input${prefix}a2ass2)]]) \n',
-    '      resDef <- {prefix}def$gene1[[gsub("^Assay: ", "", input${prefix}a2ass2)]] \n',
+    '      resDef <- {prefix}def$gene2[[gsub("^Assay: ", "", input${prefix}a2ass2)]] \n',
     '      resLen <- 7 \n',
     '    }} \n',
     '    return(list(res,resDef,resLen))\n',
