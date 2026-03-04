@@ -201,27 +201,53 @@ or be hosted via Shiny Server. For further details, refer to
 [Instructions on how to deploy ShinyCell apps online](
 https://htmlpreview.github.io/?https://github.com/the-ouyang-lab/ShinyCell2-tutorial/master/docs/cloud.html).
 
-&#127793; To generate our application [_Medicago truncatula_ Meliloti vs. Mock Inoculated Root](https://shinycell.legumeinfo.org/medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022/), we use
-``` r
-seurat_medtr <- readRDS("shinycell.rds")
-scConf_medtr <- createConfig(seurat_medtr)
-title_medtr <- "Medicago truncatula Meliloti vs. Mock Inoculated Root"
-dir_medtr <- "medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022/"
-props_medtr <- list(
-  gene_prefix = "medtr.A17.gnm5.ann1_6.",
-  gene_lookup_filename = "medicago_gene_id_lookup.txt"
-)
-saveRDS(props_medtr, paste0(dir_medtr, "properties.rds"))
-makeShinyFiles(seurat_medtr, scConf_medtr, shiny.prefix = "sc1", shiny.dir = dir_medtr)
-makeShinyCodes(shiny.title = title_medtr, shiny.prefix = "sc1", shiny.dir = dir_medtr)
-```
-which puts the application files in `medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022/` instead of the default `shinyApp/`.
-
 More details on the various visualisations in the `ShinyCell2` can be found in
 [Additional information on new visualisations tailored for spatial / scATAC-seq / multiomics](
 https://htmlpreview.github.io/?https://github.com/the-ouyang-lab/ShinyCell2-tutorial/master/docs/addNewVis.html)
 and [Additional information on enhanced visualisation features](
 https://htmlpreview.github.io/?https://github.com/the-ouyang-lab/ShinyCell2-tutorial/master/docs/addEnhanVis.html)
+
+&#127793; For example, to generate our application [_Medicago truncatula_ Meliloti vs. Mock Inoculated Root](http://dev.lis.ncgr.org:50083), we could use
+``` r
+dir_medtr <- "shinyApp/"
+title_medtr <- "Medicago truncatula Meliloti vs. Mock Inoculated Root"
+seurat_medtr <- readRDS("shinycell.rds")
+scConf_medtr <- createConfig(seurat_medtr)
+
+# Properties file, run only once unless changed
+props_medtr <- list(
+  gene_prefix = "medtr.A17.gnm5.ann1_6.",
+  gene_lookup_filename = "medicago_gene_id_lookup.txt"
+)
+saveRDS(props_medtr, paste0(dir_medtr, "properties.rds"))
+
+makeShinyFiles(seurat_medtr, scConf_medtr, shiny.prefix = "sc1", shiny.dir = dir_medtr)
+makeShinyCodes(shiny.title = title_medtr, shiny.prefix = "sc1", shiny.dir = dir_medtr)
+```
+which puts the application files in `shinyApp/`.
+
+&#127793; Build scripts for our `ShinyCell2` applications live in
+```
+/falafel/svengato/<your-ShinyCell2-application>/build/
+```
+
+## &#127793; Docker build
+
+Once the Shiny application files are created, we can deploy them through a Docker container.
+This requires three extra files which are customized for each application.
+Docker files for our `ShinyCell2` applications live in
+```
+/falafel/svengato/<your-ShinyCell2-application>/docker/
+```
+
+**app.R**
+<br>Runs the Shiny application.
+
+**docker-compose.yml**
+<br>For now, just specifies the port for the Shiny application
+
+**Dockerfile**
+<br>Details for building the container: how to add the Shiny image, system and R packages, and application files.
 
 ## &#127793; LIS-specific properties
 
@@ -235,11 +261,14 @@ generation process above. It defines `gene_prefix` and `gene_lookup_filename`.
 ### &#127793; Specifying values in the URL
 
 This LIS version allows setting initial values through a **GET** request:
-* `tab`: tag for selected tab
 * `dataset`: tag for selected dataset (ignored unless multiple datasets exist)
+* `tab`: tag for selected tab
+* `gene1`: gene to display in 1st gene expression view
+* `gene2`: gene to display in 2nd gene expression view
 
-For example, this URL will launch the application in the **Gene coexpression** tab.<br>
-http://dev.lis.ncgr.org:50083/?tab=gene-coexpression
+For example, this URL will launch the **_Medicago truncatula_ Meliloti vs. Mock Inoculated Root**
+application in the **Gene coexpression** tab, with genes TRX and MtFE selected.
+<br>http://dev.lis.ncgr.org:50083/?tab=gene-coexpression&gene1=TRX&gene2=MtFE
 
 To configure the tab and dataset lookup, you may add the following (optional) lists
 to your `properties.rds`. (Make sure that they match your actual tabs and datasets!)
