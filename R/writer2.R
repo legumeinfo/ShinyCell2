@@ -76,6 +76,7 @@ wrUIpre <- function(title, ganalytics) {
   )
 }
 
+gene_name_note <- 'p("Features shown below are examples. Type in the dropdown menu to enter a specific gene."), \n'
 #' Write code for ui.R
 #'
 #' @rdname wrUImainA1
@@ -146,6 +147,7 @@ wrUImainA1 <- function(prefix, ptsiz, dataset = NULL) {
     '        selectInput("{prefix}a1ass1", "Data type to colour plot:",\n',
     '                    choices = c("Cell Information", paste0("Assay: ", {prefix}def$assay)), \n',
     '                    selected = "Cell Information"), \n',
+    '        ', gene_name_note,
     '        selectInput("{prefix}a1inp1", "Cell Info / Feature Name:", choices = NULL) %>% \n',
     '          helper(type = "inline", size = "m", fade = TRUE,\n',
     '                 title = "Cell Info / Gene to colour cells by",\n',
@@ -282,6 +284,7 @@ wrUImainA2 <- function(prefix, ptsiz, dataset = NULL) {
     '            6, selectInput("{prefix}a2ass1", "Data type to colour plot:",\n',
     '                           choices = c("Cell Information", paste0("Assay: ", {prefix}def$assay)), \n',
     '                           selected = "Cell Information"), \n',
+    '            ', gene_name_note,
     '            selectInput("{prefix}a2inp1", "Cell Info / Feature Name:", choices = NULL) %>% \n',
     '              helper(type = "inline", size = "m", fade = TRUE,\n',
     '                     title = "Cell Info / Gene to colour cells by",\n',
@@ -338,6 +341,7 @@ wrUImainA2 <- function(prefix, ptsiz, dataset = NULL) {
     '            6, selectInput("{prefix}a2ass2", "Data type to colour plot:",\n',
     '                           choices = c("Cell Information", paste0("Assay: ", {prefix}def$assay)), \n',
     '                           selected = paste0("Assay: ", {prefix}def$assay[1])), \n',
+    '            ', gene_name_note,
     '            selectInput("{prefix}a2inp2", "Cell Info / Feature Name:", choices = NULL) %>% \n',
     '              helper(type = "inline", size = "m", fade = TRUE,\n',
     '                     title = "Cell Info / Gene to colour cells by",\n',
@@ -481,6 +485,7 @@ wrUImainA3 <- function(prefix, ptsiz, dataset = NULL) {
     '    fluidRow( \n',
     '      column( \n',
     '        3, style="border-right: 2px solid black", h4("Assay Expression"), \n',
+    '        ', gene_name_note,
     '        selectInput("{prefix}a3inp1", "Feature 1:", choices=NULL) %>%  \n',
     '          helper(type = "inline", size = "m", fade = TRUE, \n',
     '                title = "Feature expression to colour cells by", \n',
@@ -489,6 +494,7 @@ wrUImainA3 <- function(prefix, ptsiz, dataset = NULL) {
     '                                  "White-Red colour scheme which can be ", \n',
     '                                  "changed in the plot controls"))), \n',
     '        fluidRow(column(12, htmlOutput("{prefix}a3lnk1"))), \n',
+    '        ', gene_name_note,
     '        selectInput("{prefix}a3inp2", "Feature 2:", choices=NULL) %>% \n',
     '          helper(type = "inline", size = "m", fade = TRUE, \n',
     '                 title = "Feature expression to colour cells by", \n',
@@ -579,6 +585,7 @@ wrUImainB1 <- function(prefix, ptsiz, dataset = NULL) {
     '                 content = c("Select categorical cell information to group cells by",  \n',
     '                             "- Single cells are grouped by this categorical covariate",  \n',
     '                             "- Plotted as the X-axis of the violin plot / box plot")),  \n',
+    '        ', gene_name_note,
     '        selectInput("{prefix}b1inp2", "Cell Info / Feature name (Y-axis):", choices=NULL) %>%  \n',
     '          helper(type = "inline", size = "m", fade = TRUE, \n',
     '                 title = "Cell Info / Gene to plot", \n',
@@ -892,6 +899,7 @@ wrUImainS1 <- function(prefix, ptsiz, dataset = NULL) {
     '        selectInput("{prefix}s1ass1", "Data type to colour plot:",\n',
     '                    choices = c("Cell Information", paste0("Assay: ", {prefix}def$assay)), \n',
     '                    selected = "Cell Information"), \n',
+    '        ', gene_name_note,
     '        selectInput("{prefix}s1inp1", "Cell Info / Feature Name:", choices = NULL) %>% \n',
     '          helper(type = "inline", size = "m", fade = TRUE,\n',
     '                 title = "Cell Info / Gene to colour cells by",\n',
@@ -1015,6 +1023,7 @@ wrUImainS2 <- function(prefix, ptsiz, dataset = NULL) {
     '            6, selectInput("{prefix}s2ass1", "Data type to colour plot:",\n',
     '                           choices = c("Cell Information", paste0("Assay: ", {prefix}def$assay)), \n',
     '                           selected = "Cell Information"), \n',
+    '            ', gene_name_note,
     '            selectInput("{prefix}s2inp1", "Cell Info / Feature Name:", choices = NULL) %>% \n',
     '              helper(type = "inline", size = "m", fade = TRUE,\n',
     '                     title = "Cell Info / Gene to colour cells by",\n',
@@ -1064,6 +1073,7 @@ wrUImainS2 <- function(prefix, ptsiz, dataset = NULL) {
     '            6, selectInput("{prefix}s2ass2", "Data type to colour plot:",\n',
     '                           choices = c("Cell Information", paste0("Assay: ", {prefix}def$assay)), \n',
     '                           selected = paste0("Assay: ", {prefix}def$assay[1])), \n',
+    '            ', gene_name_note,
     '            selectInput("{prefix}s2inp2", "Cell Info / Feature Name:", choices = NULL) %>% \n',
     '              helper(type = "inline", size = "m", fade = TRUE,\n',
     '                     title = "Cell Info / Gene to colour cells by",\n',
