@@ -162,7 +162,8 @@ devtools::install_github("the-ouyang-lab/ShinyCell2")
 &#127793; To install this LIS version instead, use
 ``` r
 remove.packages("ShinyCell2") # if necessary
-devtools::install_github("legumeinfo/ShinyCell2", ref = "lis")
+# devtools::install_github("legumeinfo/ShinyCell2", ref = "lis") # deprecated
+pak::pak("legumeinfo/ShinyCell2@lis")
 ```
 
 
@@ -228,7 +229,7 @@ which puts the application files in `shinyApp/`.
 
 &#127793; Build scripts for our `ShinyCell2` applications live in
 ```
-/falafel/svengato/<your-ShinyCell2-application>/build/
+/falafel/svengato/shinycell/<your-ShinyCell2-application>/build/
 ```
 
 ## &#127793; Docker build
@@ -237,7 +238,7 @@ Once the Shiny application files are created, we can deploy them through a Docke
 This requires three extra files which are customized for each application.
 Docker files for our `ShinyCell2` applications live in
 ```
-/falafel/svengato/<your-ShinyCell2-application>/docker/
+/falafel/svengato/shinycell/<your-ShinyCell2-application>/docker/
 ```
 
 **app.R**
