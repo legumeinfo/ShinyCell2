@@ -262,17 +262,22 @@ generation process above. It defines `gene_prefix` and `gene_lookup_filename`.
 ### &#127793; Specifying values in the URL
 
 This LIS version allows setting initial values through a **GET** request:
-* `dataset`: tag for selected dataset (ignored unless multiple datasets exist)
-* `tab`: tag for selected tab
+* `dataset`: tag (or index) for selected dataset (ignored unless multiple datasets exist)
+* `tab`: tag (or index) for selected tab
 * `gene1`: gene to display in 1st gene expression view
 * `gene2`: gene to display in 2nd gene expression view
 
-For example, this URL will launch the **_Medicago truncatula_ Meliloti vs. Mock Inoculated Root**
+For example, either of these URLs will launch the **_Medicago truncatula_ Meliloti vs. Mock Inoculated Root**
 application in the **Gene coexpression** tab, with genes TRX and MtFE selected.
-<br>https://shinycell.legumeinfo.org/medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022-shinycell2/?tab=gene-coexpression&gene1=TRX&gene2=MtFE
+
+https://shinycell.legumeinfo.org/medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022-shinycell2/?tab=gene-coexpression&gene1=TRX&gene2=MtFE
+
+https://shinycell.legumeinfo.org/medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022-shinycell2/?tab=3&gene1=TRX&gene2=MtFE
 
 To configure the tab and dataset lookup, you may add the following (optional) lists
-to your `properties.rds`. (Make sure that they match your actual tabs and datasets!)
+to your `properties.rds`. Make sure that they match your actual tabs and datasets,
+and that they are lower case, as we convert these URL fields to lower case so that
+users need not worry about case sensitivity.
 
 `tab_index`: List for converting URL `tab` field to the matching tab's index.
 If missing, `ShinyCell2` assumes that your application has the original tab structure,
