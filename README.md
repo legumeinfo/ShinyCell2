@@ -208,7 +208,7 @@ https://htmlpreview.github.io/?https://github.com/the-ouyang-lab/ShinyCell2-tuto
 and [Additional information on enhanced visualisation features](
 https://htmlpreview.github.io/?https://github.com/the-ouyang-lab/ShinyCell2-tutorial/master/docs/addEnhanVis.html)
 
-&#127793; For example, to generate our application [_Medicago truncatula_ Meliloti vs. Mock Inoculated Root](http://dev.lis.ncgr.org:50083), we could use
+&#127793; For example, to generate our application [_Medicago truncatula_ Meliloti vs. Mock Inoculated Root](https://shinycell.legumeinfo.org/medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022-shinycell2/), we could use
 ``` r
 dir_medtr <- "shinyApp/"
 title_medtr <- "Medicago truncatula Meliloti vs. Mock Inoculated Root"
@@ -269,7 +269,7 @@ This LIS version allows setting initial values through a **GET** request:
 
 For example, this URL will launch the **_Medicago truncatula_ Meliloti vs. Mock Inoculated Root**
 application in the **Gene coexpression** tab, with genes TRX and MtFE selected.
-<br>http://dev.lis.ncgr.org:50083/?tab=gene-coexpression&gene1=TRX&gene2=MtFE
+<br>https://shinycell.legumeinfo.org/medtr.A17.gnm5.ann1_6.expr.Cervantes-Perez_Thibivilliers_2022-shinycell2/?tab=gene-coexpression&gene1=TRX&gene2=MtFE
 
 To configure the tab and dataset lookup, you may add the following (optional) lists
 to your `properties.rds`. (Make sure that they match your actual tabs and datasets!)
