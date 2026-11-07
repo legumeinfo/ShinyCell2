@@ -264,6 +264,8 @@ generation process above. It defines `gene_prefix` and `gene_lookup_filename`.
 This LIS version allows setting initial values through a **GET** request:
 * `dataset`: tag (or index) for selected dataset (ignored unless multiple datasets exist)
 * `tab`: tag (or index) for selected tab
+* `assay1`: 1st (left side, or only) assay selection
+* `assay2`: 2nd (right side) assay selection
 * `gene1`: gene to display in 1st gene expression view
 * `gene2`: gene to display in 2nd gene expression view
 
